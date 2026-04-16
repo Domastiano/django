@@ -13,8 +13,9 @@ class QuestionAdmin(admin.ModelAdmin):
     inlines = [ChoiceInline]
 
 class LessonAdmin(admin.ModelAdmin):
-    list_display = ['title']
-
+    list_display = ['title', 'order', 'course']
+    
+admin.site.register(Submission)
 admin.site.register(Course)
 admin.site.register(Lesson, LessonAdmin)
 admin.site.register(Instructor)
