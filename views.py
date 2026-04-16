@@ -38,3 +38,21 @@ def show_exam_result(request, course_id, submission_id):
     }
 
     return render(request, 'onlinecourse/exam_result_bootstrap.html', context)
+
+
+def submit(request, course_id):
+    user = request.user
+    course = Course.objects.get(id=course_id)
+    enrollment = Enrollment.objects.get(user=user, course=course)
+
+    submission = Submission.objects.create(enrollment=enrollment)
+
+    for choice_id in request.POST.getlist('choice'):
+        choice = Choice.objects.get(id=choice_id)
+        submission.choices.add(choice)
+
+    return redirect(
+        'onlinecourse:show_exam_result',
+        course_id=course.id,
+        submission_id=submission.id
+    )
